@@ -1,0 +1,26 @@
+body{
+background : #f9bdbd;
+display: flex;
+    min-height: 100px;
+}
+
+h1{
+background : white;
+}
+
+.main{
+background : white;
+margin-left: 3%;
+margin-right: 3%;
+height: 80%;
+}
+
+
+  body {
+    
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+      
