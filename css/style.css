@@ -1,27 +1,18 @@
-body{
-background : #f9bdbd;
-display: flex;
-min-height: 100px;
-flex-direction: column;
-}
-
-h1{
-background : white;
-}
-
-.main{
-background : white;
-margin-left: 3%;
-margin-right: 3%;
-height: 80%;
-}
-
-
   body {
-    
+  background : #f9bdbd;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
   }
 
   main {
     flex: 1 0 auto;
   }
-      
+  
+  .main {
+  height: 60vh;
+  }
+
+h1{
+background : white;
+}
