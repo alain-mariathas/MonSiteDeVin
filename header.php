@@ -3,8 +3,9 @@
     <nav>
       <div class="nav-wrapper">
         <a href="#!" class="brand-logo">Logo</a>
+        <a class="brand-logo center" style="font-family:'Barrio', cursive; font-size: 28px;margin-right:8%;">Apprenez, buvez du vin divin! </a>
         <ul class="right hide-on-med-and-down">
-          <li style="width:1000px">SLOGAN slogan slogan slogan</li>
+          
           <li><a href="#">Catalogue de vins</a></li>
           <li><a href="#">Fiche de vin</a></li>
           
