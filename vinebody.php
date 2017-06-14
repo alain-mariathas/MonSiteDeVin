@@ -1,34 +1,37 @@
-<html>
+<?php include("test_connexion.php"); ?>
 <?php include("head.php"); ?>
+<html>
 
+<?php include("post_bdd_conn.php"); ?>
     <body>
     <?php include("header.php"); ?>      
-              
         
          <div id="bloc_search">
         <h3>Recherche</h3>
-        <div class="divider"></div>
+        <div class="divider">
+        </div>
+             
           <form id="form_search">
                <div class="row">
-                <div class="input-field">
+                <div class="input-field col s4">
                   <input id="SearchName" type="text">
                   <label for="SearchName">Nom</label>
                 </div>
               </div>
 
               <div class="row">
-                <label for="Annee">Annee</label>
-                  <div class="input-field">
-                     <p class="range-field">
-                    <input type="range" id="Annee"/>
-                  </p>
+                <div class="input-field col s4">
+                    <p>Années</p>
+                    </div>
+                  <div id="slider_an" class="col s4">
                   </div>
               </div>
 
                 <div class="row">
-                    <label for="region_boxes">Couleurs</label>
-                    <div id="couleur_boxes" class="input-field">
-                        <p>
+                    
+                    <div id="couleur_boxes" class="input-field col s4">
+                        <p>Couleur</p>
+                    <p>
                       <input type="checkbox" class="filled-in" id="rouge"/>
                       <label for="rouge">Rouge</label>
                     </p>
@@ -42,17 +45,24 @@
                       <input type="checkbox" class="filled-in" id="rose"/>
                       <label for="rose">Rose</label>
                     </p>
+                        
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="input-field">
-                      <input id="SearchCity" type="text">
-                      <label for="SearchCity">Region</label>
+                  
+              <div class="row">
+                    <div class="input-field col s4">
+                          <select multiple>
+                          <option value="" disabled selected>Choisissez vos régions</option>
+                          <option value="1">Bordeaux</option>
+                          <option value="2">Languedoc</option>
+                          <option value="3">Rhône</option>
+                        </select>
+                        <label>Régions</label>
                     </div>
                   </div>
 
             <div class="row">
-              <div class="input-field center-align">
+              <div class="input-field center-align col s4">
               <input style="text-align:center"  type="submit" class="red lighten-1 pulse btn" value="valider">
             </div>
             </div>
@@ -64,49 +74,70 @@
         <div class="divider"></div>
 
           <div id="bloc_mainVine">
+              
+             <!-- LISTE DES VINS --> 
               <div id="list">
-              <button onclick="$('#card_vin').show('slow'); $('#list').hide('slow');">test</button>
+                    <table class="centered highlight">
+                        <thead>
+                          <tr>
+                              <th>Nom</th>
+                              <th>Domaine</th>
+                              <th>Région</th>
+                              <th>Couleur</th>
+                              <th>Année</th>
+                              <th> </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <?php
+                            //TODO Requete affichage vins
+                            $vins = $bdd->query('SELECT  v.vin_id, v.vin_nom, v.vin_couleur, v.vin_annee, v.vin_description, r.region_name, d.dom_name FROM vins v join domaines d ON v.domaine_id = d.dom_id JOIN regions r ON d.region_id = r.region_id;'); 
+                            
+                            while ($donnee = $vins->fetch())
+                            {	
+                            ?>
+                            <tr>
+                            <td><?php echo $donnee['vin_nom']; ?></td>
+                            <td><?php echo $donnee['dom_name']; ?></td>
+                            <td><?php echo $donnee['region_name']; ?></td>
+                            <td><?php echo $donnee['vin_couleur']; ?></td>
+                            <td><?php echo $donnee['vin_annee']; ?></td>
+                            <td><button onclick="$('#card_vin<?php echo $donnee['vin_id']; ?>').removeClass('hide'); $('tr').hide('slow'); $('thead').hide('slow');">test</button></td>
+                          </tr>
+                            
+                            
+                                          <!-- FICHES DES VINS --> 
+                     <div id="card_vin<?php echo $donnee['vin_id']; ?>" style="margin-top:10%; margin-bottom:10%" class="hoverable hide card large">
+                        <div class="card-image waves-effect waves-block waves-light">
+                            <img class="" src="img/vin_card.jpg">
+                        </div>
+                        <div class="card-content">
+                          <span class="card-title grey-text text-darken-4"><?php echo $donnee['vin_nom']; ?><a href="#"><i class="activator material-icons right">subject</i></a><br><h6><?php echo $donnee['vin_annee']; ?></h6></span>
+                            <br/>
+                            <p><a href="#" onclick="$('#card_vin<?php echo $donnee['vin_id']; ?>').addClass('hide'); $('tr').show('slow'); $('thead').show('slow');"><i class="material-icons bottom">close</i></a>    <a href="#"><i class="material-icons">print</i></a></p>
+                        </div>
+                        <div class="card-reveal">
+                          <span class="card-title grey-text text-darken-4"><?php echo $donnee['vin_nom']; ?><i class="material-icons right">close</i></span>
+                          <p><?php echo $donnee['vin_description']; ?></p>
+                        </div>
+                      </div>
+                            
+                          <?php
+                            }
+                            $vins->closeCursor();
+                            ?>
+                        </tbody>
+                    </table>  
               </div>
               
- <div id="card_vin" style="margin-top:10%; margin-bottom:10%" class="card large">
-    <div class="card-image waves-effect waves-block waves-light">
-      <img class="activator" src="img/vin_card.jpg">
-    </div>
-    <div class="card-content">
-      <span class="card-title grey-text text-darken-4"><a class="btn-flat" style="color:black " onclick="$('#card_vin').hide('slow'); $('#list').show('slow');"><i class="material-icons left">fast_rewind</i></a>Vin Rouge qui tâche<i class="activator material-icons right">more_vert</i></span>
-      <p><a href="#">Imprimer cette fiche</a></p>
-    </div>
-    <div class="card-reveal">
-      <span class="card-title grey-text text-darken-4">Vin Rouge qui tâche<i class="material-icons right">close</i></span>
-      <p>Une valeur sûre pour ce Bordeaux rouge médaillé d'Or à Paris! Un rapport qualité-prix bluffant sur un millésime 2015 qui s'inscrit déjà dans la lignée des légendaires 2009 et 2010!!!
-MonSiteDeVin vous présente le GRAND gagnant de notre sélection de "petits" Bordeaux. Dégusté en Mars 2016 parmi plus de 40 vins, nous sommes unanimes: ce Château Jean de Marceau 2015 est LA valeur sûre! Fruité, élégant, avec des tanins bien fondus, il sera parfait pour accompagner vos repas entre amis en toute occasion: charcuteries et terrines, viandes mijotées et grillées, fromages... C'est le compagnon idéal qui sublimera vos convives. Un petit bijou Bordelais sur un millésime déjà mythique à prix complètement canon!</p>
-        <a href="#"><i class="material-icons right">print</i></a>
 
-    </div>
-  </div>
-              
-              
-              
         </div>
 
 
       </div>
+        
   <?php include("footer.php"); ?>
-  <script type="text/javascript">
-  var slider = document.getElementById('Annee');
-  noUiSlider.create(slider, {
-   start: [1960,2017],
-   connect: true,
-   step: 1,
-   range: {
-     'min': 1960,
-     'max': 2017
-   },
-   format: wNumb({
-     decimals: 0
-   })
-  });
-  </script>
-    </body>
+       </body>
 
 </html>

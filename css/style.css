@@ -80,8 +80,8 @@ footer{
 }
 
 #bloc_search{
-    position: absolute;
-    margin-top : 15%;
+    position: fixed;
+    margin-top: 70px;
     margin-left: 5px;
     width: 20%;
     padding: 10px;
@@ -93,6 +93,7 @@ footer{
 #form_search{
     padding-left: 10px;
     padding-right: 10px;
+    width: inherit;
 }
 
 #vinebody{
