@@ -103,19 +103,18 @@
                             <td><?php echo $donnee['region_name']; ?></td>
                             <td><?php echo $donnee['vin_couleur']; ?></td>
                             <td><?php echo $donnee['vin_annee']; ?></td>
-                            <td><button onclick="$('#card_vin<?php echo $donnee['vin_id']; ?>').removeClass('hide'); $('tr').hide('slow'); $('thead').hide('slow');">test</button></td>
+                            <td><button class="btn-floating btn-flat waves-effect waves-light btn-small" onclick="$('#card_vin<?php echo $donnee['vin_id']; ?>').removeClass('hide'); $('tr').hide('slow'); $('thead').hide('slow');"><i style="color:#ef9a9a" class="material-icons tiny">add</i></button></td>
                           </tr>
-                            
-                            
                                           <!-- FICHES DES VINS --> 
-                     <div id="card_vin<?php echo $donnee['vin_id']; ?>" style="margin-top:10%; margin-bottom:10%" class="hoverable hide card large">
+                     <div id="card_vin<?php echo $donnee['vin_id']; ?>" style="margin-top:5%; margin-bottom:10%" class="hoverable hide card large">
                         <div class="card-image waves-effect waves-block waves-light">
                             <img class="" src="img/vin_card.jpg">
                         </div>
                         <div class="card-content">
-                          <span class="card-title grey-text text-darken-4"><?php echo $donnee['vin_nom']; ?><a href="#"><i class="activator material-icons right">subject</i></a><br><h6><?php echo $donnee['vin_annee']; ?></h6></span>
-                            <br/>
-                            <p><a href="#" onclick="$('#card_vin<?php echo $donnee['vin_id']; ?>').addClass('hide'); $('tr').show('slow'); $('thead').show('slow');"><i class="material-icons bottom">close</i></a>    <a href="#"><i class="material-icons">print</i></a></p>
+                          <span class="card-title grey-text text-darken-4"><?php echo $donnee['vin_nom']; ?><br><h6><?php echo $donnee['vin_annee']; ?></h6></span>
+                            <p><a class="btn-floating btn-flat waves-effect waves-light btn-small" href="#"><i style="color:#ef9a9a" class="activator material-icons">subject</i></a>
+                                <a class="btn-floating btn-flat waves-effect waves-light btn-small" href="#"><i style="color:#ef9a9a" class="material-icons">print</i></a>
+                            <button class="btn-floating btn-flat waves-effect waves-light btn-small" href="#" onclick="$('#card_vin<?php echo $donnee['vin_id']; ?>').addClass('hide'); $('tr').show('slow'); $('thead').show('slow');"><i style="color:#ef9a9a" class="material-icons bottom">close</i></button></p>
                         </div>
                         <div class="card-reveal">
                           <span class="card-title grey-text text-darken-4"><?php echo $donnee['vin_nom']; ?><i class="material-icons right">close</i></span>
