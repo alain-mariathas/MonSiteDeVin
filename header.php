@@ -12,7 +12,7 @@
           <?php
           //insérer contrôle administrateur
           ?>
-          <li><a href="#">Adminsitration</a></li>
+          <li><a href="admin/index.php">Adminsitration</a></li>
           <?php ?>
           <li><a href="post_deconnexion.php"><i class="material-icons">power_settings_new</i></a></li>
         </ul>

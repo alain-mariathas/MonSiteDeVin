@@ -1,0 +1,7 @@
+AuthUserFile /var/www/MonSiteDeVin/admin/.htpasswd
+AuthGroupFile /dev/null
+AuthName "page d'administration protegee"
+AuthType Basic
+<Limit GET POST>
+require valid-user
+</Limit>

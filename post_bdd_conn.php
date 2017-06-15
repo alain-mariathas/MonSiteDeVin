@@ -5,7 +5,7 @@ try
         $login = 'root';
 		$pass = 'misigd';
 		$host = "127.0.0.1";
-		$dbname = 'siteVin';
+		$dbname = 'MonSiteDeVin';
 		$charset = 'utf8';
 		
 		
