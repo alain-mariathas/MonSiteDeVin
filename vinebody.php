@@ -113,7 +113,7 @@
                         <div class="card-content">
                           <span class="card-title grey-text text-darken-4"><?php echo $donnee['vin_nom']; ?><br><h6><?php echo $donnee['vin_annee']; ?></h6></span>
                             <p><a class="btn-floating btn-flat waves-effect waves-light btn-small" href="#"><i style="color:#ef9a9a" class="activator material-icons">subject</i></a>
-                                <a class="btn-floating btn-flat waves-effect waves-light btn-small" href="#"><i style="color:#ef9a9a" class="material-icons">print</i></a>
+                                <a class="btn-floating btn-flat waves-effect waves-light btn-small" target="_blank" href="pdf.php"><i style="color:#ef9a9a" class="material-icons">print</i></a>
                             <button class="btn-floating btn-flat waves-effect waves-light btn-small" href="#" onclick="$('#card_vin<?php echo $donnee['vin_id']; ?>').addClass('hide'); $('tr').show('slow'); $('thead').show('slow');"><i style="color:#ef9a9a" class="material-icons bottom">close</i></button></p>
                         </div>
                         <div class="card-reveal">

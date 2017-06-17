@@ -1,91 +1,77 @@
+<?php 
+include("test_connexion.php");
 
-<?php
-include_once('../test_connexion.php');
-?>
+echo "Connexion au serveur LDAP....";
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" >
+$server="localhost";
+$port="389";
+$dn="dc=sitevin";
+$rootdn="cn=admin,$dn";
+$rootpw="misigd";
 
-<?php include('../head.php'); ?>
+$ds=ldap_connect($server,$port)//;
+//ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
+        or die ("Impossible de se connecter au serveur ! \n");
+echo "<br>Connexion sur le serveur OpenLDAP -> OK \n\n";
 
-    <body>
-
-        
-	<div class="main">
-        
-        <h4>
-			ADMINISTRATION LDAP         
-		</h4>
-
-<!-- FORMULAIRE GESTION UTILISATEUR -->	
-        
-        <?php
-
-// LDAP variables
-$ldaphost = "";  // votre serveur LDAP
-$ldapport = 389;                 // votre port de serveur LDAP
-// Eléments d'authentification LDAP
-$ldaprdn  = '';     // DN ou RDN LDAP
-$ldappass = '';  // Mot de passe associé
-        
-// Connexion LDAP
-try{
-    $ldapconn = ldap_connect($ldaphost, $ldapport);
-    }
-        catch(Exception $e)
-	{
-		die('Erreur : '.$e->getMessage());
-	}
-        
-        if ($ldapconn) {
-
-    // Connexion au serveur LDAP
-            ?>
-        Connection réussie<br>
-        <?php
-    $ldapbind = ldap_bind($ldapconn);
-            
-            if($ldapbind)
-            {
-                ?>
-        tesssst 2
-        <?php
-            }
-            
-            $dn = "";
-        $value = "";
-        $attr = "";
-
-        // Comparaison des valeurs
-        $r=ldap_compare($ldapconn, $dn, $attr, $value);
-            
-            if($r == true){
-                ?>
-        <br> succes
-        <?php
-            }
-            
-            
-            $filter="";
-
-            echo $dn;
-$sr=ldap_search($ldapconn, $dn, $filter);
-
-$info = ldap_get_entries($ldapconn, $sr);
-
-            echo $info;
+ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
+ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
 
 
+$bind=ldap_bind($ds,$rootdn,$rootpw);
+if($bind)
+  {
+    echo "<br>authentification reussie";
+    echo "<br>";
+    $search=ldap_search($ds,"dc=sitevin","(cn=*)") or die ("Erreur dans la recherche");
+    $data=ldap_get_entries($ds,$search);
+    
+    //affiche toutes les données
+//    echo "<h1>Les utilisateurs</h1><pre>";
+//    print_r($data);
+//    echo "</pre>";
+
+       //Nombre d'entrées
+    echo "<h5>nombre d'entrees</h5><br>";
+    echo ldap_count_entries($ds,$search);
+    
+    //affichage des données
+    echo "<h5>affiche toutes les données</h5>";
+    for($i=0; $i<$data["count"];$i++) {
+      echo "user: ".$data[$i]["cn"][0]."<br/>";
+        if(isset($data[$i]["mail"][0]))
+        {
+          echo "mail: ".$data[$i]["mail"][0]."<br/>";
         }
+        else
+        {
+          echo "mail: None<br/><br/>";
+        }
+    }
+    
+    //ajout d'un user
+#    $ldaprec["cn"]=$_POST['prenom'].".".$_POST['nom'];
+#    $ldaprec["mail"]=$_POST['mail'];
+#    $ldaprec["objectclass"]="inetOrgPerson";
+#    $ldaprec["objectclass"]="top";
+#    
+#    $ajout=ldap_add($ds,"cn=".$_POST['prenom']." ".$_POST['nom'].",".$dn,$ldaprec);
+#      if($ajout)
+#      {
+#        header("location:admin.php");
+#      }
+#      else
+#      {
+#        echo "erreur d'ajout";
+#      }
+
+  }
+else
+{
+    echo "<br>authentification ratee";
+}
+
+//fermeture de la connexion LDAP
+ldap_close($ds);
 
 ?>
-        
-<?php include('../footer.php'); ?>
-
-        </div>
-</body>
-	
-</html>
-
-
-	
