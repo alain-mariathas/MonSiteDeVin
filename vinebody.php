@@ -11,38 +11,46 @@
         <div class="divider">
         </div>
              
-          <form id="form_search">
+          <form action="#!" id="form_search" method="POST">
                <div class="row">
                 <div class="input-field col s4">
-                  <input id="SearchName" type="text">
+                  <input name="filtre_nom" id="SearchName" type="text">
                   <label for="SearchName">Nom</label>
                 </div>
               </div>
+              
 
               <div class="row">
-                <div class="input-field col s4">
-                    <p>Années</p>
-                    </div>
-                  <div id="slider_an" class="col s4">
+              <div class="input-field col s4">
+                                <p>Années<br>
+                  De </p>
+                  <input style="display:inline-block" name="filtre_annee_1" id="range1" type="range" value="1920" min="1920" max="2017">
+                  <i style="display:inline-block" class="material-icons" onclick="$('#annee2').removeClass('hide'); document.getElementById('range2').setAttribute('min',document.getElementById('range1').value);">add</i>
                   </div>
               </div>
-
+              <div class="row">
+                <div id="annee2" class="input-field col s4 hide">
+                  <p>A</p>
+                  <input id="range2" name="filtre_annee_2" type="range" max="2017">
+                  </div>
+              </div>
+              
                 <div class="row">
                     
                     <div id="couleur_boxes" class="input-field col s4">
                         <p>Couleur</p>
                     <p>
-                      <input type="checkbox" class="filled-in" id="rouge"/>
+                      <input type="checkbox" class="filled-in" id="rouge" name="rouge"/>
                       <label for="rouge">Rouge</label>
                     </p>
 
                     <p>
-                      <input type="checkbox" class="filled-in" id="blanc"/>
+                      <input type="checkbox" class="filled-in" id="blanc" name="blanc"/>
                       <label for="blanc">Blanc</label>
                     </p>
 
                     <p>
-                      <input type="checkbox" class="filled-in" id="rose"/>
+                      <input type="checkbox" class="filled-in" id="rose" name="rose"/>
                       <label for="rose">Rose</label>
                     </p>
                         
@@ -51,13 +59,13 @@
                   
               <div class="row">
                     <div class="input-field col s4">
+                                            <p>Régions</p>
                           <select multiple>
                           <option value="" disabled selected>Choisissez vos régions</option>
                           <option value="1">Bordeaux</option>
                           <option value="2">Languedoc</option>
                           <option value="3">Rhône</option>
                         </select>
-                        <label>Régions</label>
                     </div>
                   </div>
 
@@ -91,38 +99,113 @@
 
                         <tbody>
                           <?php
-                            //TODO Requete affichage vins
-                            $vins = $bdd->query('SELECT  v.vin_id, v.vin_nom, v.vin_couleur, v.vin_annee, v.vin_description, r.region_name, d.dom_name FROM vins v join domaines d ON v.domaine_id = d.dom_id JOIN regions r ON d.region_id = r.region_id;'); 
+                          $request='SELECT  v.vin_id, v.vin_nom, v.vin_couleur, v.vin_annee, v.vin_description, r.region_name, d.dom_name FROM vins v join domaines d ON v.domaine_id = d.dom_id JOIN regions r ON d.region_id = r.region_id ';
+                          
+                            if(isset($_POST['filtre_nom']) or isset($_POST['filtre_annee_1']) or isset($_POST['rose']) or isset($_POST['rouge']) or isset($_POST['blanc']))
+                            {
+                              $request=$request."WHERE 1=1 ";
+                              
+                              if(isset($_POST['filtre_nom']))
+                              {
+                                $toreplace=array('\'', "\"","&"," ");
+                                $nom=addslashes(str_replace($toreplace,"",$_POST['filtre_nom']));
+                                $request=$request."AND UPPER(vin_nom) LIKE UPPER('%".$nom."%') ";
+                              }
+
+                              if(isset($_POST['filtre_annee_1']) and isset($_POST['filtre_annee_2']))
+                              {
+                                $deb=$_POST['filtre_annee_1'];
+                                $request=$request."AND vin_annee>=".$deb." ";
+                                $fin=2017;
+                                if(isset($_POST['filtre_annee_2']) and $_POST['filtre_annee_2']>$deb)
+                                {
+                                  $fin=$_POST['filtre_annee_2'];
+                                  
+                                  $request=$request."AND vin_annee<=".$fin." ";
+                                }
+                              }
+                              else
+                              {
+                                $request=$request."AND vin_annee BETWEEN 1940 AND 2017 ";
+                              }
+                              
+                              if(isset($_POST['rose']) or isset($_POST['rouge']) or isset($_POST['blanc']))
+                              {
+                                $request=$request."AND vin_couleur IN(";
+                                
+                                  if(isset($_POST['rose']))
+                                  {
+                                    $request=$request."'Rose'";
+                                    if(isset($_POST['rouge']) or isset($_POST['blanc']))
+                                    {
+                                      $request=$request.",";
+                                    }
+                                  }
+                                  if(isset($_POST['rouge']))
+                                  {
+                                    $request=$request."'Rouge'";
+                                    if(isset($_POST['blanc']))
+                                    {
+                                      $request=$request.",";
+                                    }
+                                  }
+                                  if(isset($_POST['blanc']))
+                                  {
+                                    $request=$request."'Blanc'";
+                                  }
+                              $request=$request.") ";
+                            }
                             
+                              //TODO : Terminer tous les filtres
+                          }
+                            
+                            $request=$request.";";
+                            
+                            $vins = $bdd->query($request);
+                            
+                            $nbr=$vins->rowCount();
+                            if($nbr==0)
+                            {
+                              ?>
+                                <script type="text/javascript">
+                                $('thead').hide();
+                                </script>
+                              <?php
+                              echo "<br><h3>Pas de résultats</h3>";
+                            }
+                            
+                            else
+                            {
                             while ($donnee = $vins->fetch())
-                            {	
-                            ?>
-                            <tr>
-                            <td><?php echo $donnee['vin_nom']; ?></td>
-                            <td><?php echo $donnee['dom_name']; ?></td>
-                            <td><?php echo $donnee['region_name']; ?></td>
-                            <td><?php echo $donnee['vin_couleur']; ?></td>
-                            <td><?php echo $donnee['vin_annee']; ?></td>
-                            <td><button class="btn-floating btn-flat waves-effect waves-light btn-small" onclick="$('#card_vin<?php echo $donnee['vin_id']; ?>').removeClass('hide'); $('tr').hide('slow'); $('thead').hide('slow');"><i style="color:#ef9a9a" class="material-icons tiny">add</i></button></td>
-                          </tr>
-                                          <!-- FICHES DES VINS --> 
-                     <div id="card_vin<?php echo $donnee['vin_id']; ?>" style="margin-top:5%; margin-bottom:10%" class="hoverable hide card large">
-                        <div class="card-image waves-effect waves-block waves-light">
-                            <img class="" src="img/vin_card.jpg">
-                        </div>
-                        <div class="card-content">
-                          <span class="card-title grey-text text-darken-4"><?php echo $donnee['vin_nom']; ?><br><h6><?php echo $donnee['vin_annee']; ?></h6></span>
-                            <p><a class="btn-floating btn-flat waves-effect waves-light btn-small" href="#"><i style="color:#ef9a9a" class="activator material-icons">subject</i></a>
-                                <a class="btn-floating btn-flat waves-effect waves-light btn-small" target="_blank" href="pdf.php"><i style="color:#ef9a9a" class="material-icons">print</i></a>
-                            <button class="btn-floating btn-flat waves-effect waves-light btn-small" href="#" onclick="$('#card_vin<?php echo $donnee['vin_id']; ?>').addClass('hide'); $('tr').show('slow'); $('thead').show('slow');"><i style="color:#ef9a9a" class="material-icons bottom">close</i></button></p>
-                        </div>
-                        <div class="card-reveal">
-                          <span class="card-title grey-text text-darken-4"><?php echo $donnee['vin_nom']; ?><i class="material-icons right">close</i></span>
-                          <p><?php echo $donnee['vin_description']; ?></p>
-                        </div>
-                      </div>
-                            
-                          <?php
+                              {	
+                              ?>
+                              <tr>
+                              <td><?php echo $donnee['vin_nom']; ?></td>
+                              <td><?php echo $donnee['dom_name']; ?></td>
+                              <td><?php echo $donnee['region_name']; ?></td>
+                              <td><?php echo $donnee['vin_couleur']; ?></td>
+                              <td><?php echo $donnee['vin_annee']; ?></td>
+                              <td><button class="btn-floating btn-flat waves-effect waves-light btn-small" onclick="$('#card_vin<?php echo $donnee['vin_id']; ?>').removeClass('hide'); $('tr').hide(); $('thead').hide();"><i style="color:#ef9a9a" class="material-icons tiny">add</i></button></td>
+                            </tr>
+                                            <!-- FICHES DES VINS --> 
+                               <div id="card_vin<?php echo $donnee['vin_id']; ?>" style="margin-top:5%; margin-bottom:10%" class="hoverable hide card large">
+                                  <div class="card-image waves-effect waves-block waves-light">
+                                      <img class="" src="img/vin_card.jpg">
+                                  </div>
+                                  <div class="card-content">
+                                    <span class="card-title grey-text text-darken-4"><?php echo $donnee['vin_nom']; ?><br><h6><?php echo $donnee['vin_annee']; ?></h6></span>
+                                      <p><a class="btn-floating btn-flat waves-effect waves-light btn-small" href="#"><i style="color:#ef9a9a" class="activator material-icons">subject</i></a>
+                                          <a class="btn-floating btn-flat waves-effect waves-light btn-small" target="_blank" href="pdf.php"><i style="color:#ef9a9a" class="material-icons">print</i></a>
+                                      <button class="btn-floating btn-flat waves-effect waves-light btn-small" href="#" onclick="$('#card_vin<?php echo $donnee['vin_id']; ?>').addClass('hide'); $('tr').show('slow'); $('thead').show('slow');"><i style="color:#ef9a9a" class="material-icons bottom">close</i></button></p>
+                                  </div>
+                                  <div class="card-reveal">
+                                    <span class="card-title grey-text text-darken-4"><?php echo $donnee['vin_nom']; ?><i class="material-icons right">close</i></span>
+                                    <p><?php echo $donnee['vin_description']; ?></p>
+                                  </div>
+                                </div>
+                              
+                            <?php
+                              }
                             }
                             $vins->closeCursor();
                             ?>
