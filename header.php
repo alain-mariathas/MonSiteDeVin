@@ -5,10 +5,8 @@
         <div class="left"><a href="#!" class="brand-logo">Logo</a></div>
         <a class="brand-logo center" style="font-family:'Barrio', cursive; font-size: 28px;margin-right:8%;" disabled=true>Apprenez, buvez du vin divin! </a>
         <ul class="right hide-on-med-and-down">
-          
-          <li><a href="#">Catalogue de vins</a></li>
-          <li><a href="#">Fiche de vin</a></li>
-          
+          <li><a href="vinebody.php">Catalogue des vins</a></li>
+          <li><a href="AjoutVin.php">Ajout d'un vin</a></li>
           <?php
           //insérer contrôle administrateur
           ?>

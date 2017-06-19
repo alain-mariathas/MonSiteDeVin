@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
 <?php include("head.php"); ?>
     <body>
-    <?php include("header_index.php");
+    <?php include("header.php");
     //include("user_auth.php")
      ?>
      
      <div class="container main">
-     <div id="bloc_AjoutVin" class="center-align" style="top:250px">
+     <div id="bloc_connexion" class="center-align" style="top:250px">
          <h3>Ajout de Vin</h3>
      <form id="form_conn" name="form_conn" action="post_connexion.php" method="post">
      

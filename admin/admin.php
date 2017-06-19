@@ -8,25 +8,29 @@ include_once('../test_connexion.php');
 <?php include('../head.php'); ?>
 
     <body>
-  <?php include('../header_index.php'); ?>
+      <?php include('../header_index.php'); ?>
+    <main style="min-height:300px">
+
 	<div class="main">
         
         <h2 class="center">Page d'administration</h2>
 
 <div class="fixed-action-btn">
-<button class="btn-floating btn-flat waves-effect waves-light pulse" onclick="window.history.back()"><i style="color:#ef9a9a" class="material-icons">store</i></button>
+<a class="btn-floating btn-flat waves-effect waves-light pulse" href="../vinebody.php" onclick=""><i style="color:#ef9a9a" class="material-icons">store</i></a>
 </div>
 
 <!-- FORMULAIRE GESTION UTILISATEUR -->	
+<h4 class="center">Liste des utilisateurs</h4>
+
 
 <div id="list">
                     <table class="centered highlight">
                         <thead>
                           <tr>
-                              <th>Nom</th>
-                              <th>Prenom</th>
-                              <th>Email</th>
-                              <th> </th>
+                              <th>CN</th>
+                              <th>DN</th>
+                              <th>Mail</th>
+                              <th><i class="material-icons">mode_edit</i></th>
                           </tr>
                         </thead>
 
@@ -55,49 +59,20 @@ if($bind)
     
         for($i=0; $i<$data["count"];$i++) {
       ?>
-      <th><?php $data[$i]["cn"][0];?></th>
-      <th><?php $data[$i]["prenom"][0];?></th>
-       <th><?php $data[$i]["mail"][0];?></th>
-        
+      <td><?php echo $data[$i]["cn"][0];?></td>
+      <td><?php echo $data[$i]["dn"][0];?></td>
+       <td><?php echo $data[$i]["mail"][0];?></td>
+        <td><a href="#"><i class="material-icons">mode_edit</i></a></td>
         <?php
         }
     }
-    }
-?>
-
-
-
-
-
-
-<div class="row">
-    <form class="col s12" action="ldap.php" method="post">
-      <div class="row">
-        <div class="input-field col s6">
-          <input name="prenom" placeholder="Placeholder" id="first_name" type="text" class="validate">
-          <label for="first_name">Prénom</label>
-        </div>
-        <div class="input-field col s6">
-          <input name="nom" id="last_name" type="text" class="validate">
-          <label for="last_name">Nom</label>
-        </div>
-      </div>
-      <div class="input-field inline">
-            <input name="email" id="email" type="email" class="validate">
-            <label for="email" data-error="wrong" data-success="right">Email</label>
-          </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <button type="submit" class="waves-effect waves-light btn"><i class="material-icons">add</i></button>
-        </div>
-      </div>
-    </form>
+    ?>
+    </tbody>
+</table>
 </div>
 
-
-
-
 </div>
+</main>
 <?php include('../footer.php'); ?>
 
 </body>
