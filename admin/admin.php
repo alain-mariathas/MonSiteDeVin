@@ -19,6 +19,57 @@ include_once('../test_connexion.php');
 
 <!-- FORMULAIRE GESTION UTILISATEUR -->	
 
+<div id="list">
+                    <table class="centered highlight">
+                        <thead>
+                          <tr>
+                              <th>Nom</th>
+                              <th>Prenom</th>
+                              <th>Email</th>
+                              <th> </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+<?php
+
+$server="localhost";
+$port="389";
+$dn="dc=sitevin";
+$rootdn="cn=admin,$dn";
+$rootpw="misigd";
+
+$ds=ldap_connect($server,$port)//;
+//ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
+        or die ("Impossible de se connecter au serveur ! \n");
+
+ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
+ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
+
+
+$bind=ldap_bind($ds,$rootdn,$rootpw);
+if($bind)
+  {
+  $search=ldap_search($ds,"dc=sitevin","(cn=*)") or die ("Erreur dans la recherche");
+    $data=ldap_get_entries($ds,$search);
+    
+        for($i=0; $i<$data["count"];$i++) {
+      ?>
+      <th><?php $data[$i]["cn"][0];?></th>
+      <th><?php $data[$i]["prenom"][0];?></th>
+       <th><?php $data[$i]["mail"][0];?></th>
+        
+        <?php
+        }
+    }
+    }
+?>
+
+
+
+
+
+
 <div class="row">
     <form class="col s12" action="ldap.php" method="post">
       <div class="row">

@@ -60,11 +60,16 @@
               <div class="row">
                     <div class="input-field col s4">
                                             <p>Régions</p>
-                          <select multiple>
+                          <select name="filtre_region" multiple>
                           <option value="" disabled selected>Choisissez vos régions</option>
-                          <option value="1">Bordeaux</option>
-                          <option value="2">Languedoc</option>
-                          <option value="3">Rhône</option>
+                          <?php
+                            $rep=$bdd->query('SELECT * FROM regions;'); 
+                                while($donnees = $rep->fetch())
+                                    {
+                                        echo "<option value=\"".$donnees['region_id']."\">".$donnees['region_name']."</option>";
+                                    }
+                            $rep->closeCursor();
+                          ?>
                         </select>
                     </div>
                   </div>
@@ -101,7 +106,7 @@
                           <?php
                           $request='SELECT  v.vin_id, v.vin_nom, v.vin_couleur, v.vin_annee, v.vin_description, r.region_name, d.dom_name FROM vins v join domaines d ON v.domaine_id = d.dom_id JOIN regions r ON d.region_id = r.region_id ';
                           
-                            if(isset($_POST['filtre_nom']) or isset($_POST['filtre_annee_1']) or isset($_POST['rose']) or isset($_POST['rouge']) or isset($_POST['blanc']))
+                            if(isset($_POST['filtre_nom']) or isset($_POST['filtre_annee_1']) or isset($_POST['rose']) or isset($_POST['rouge']) or isset($_POST['blanc']) or isset($_PSOT['filtre_region']))
                             {
                               $request=$request."WHERE 1=1 ";
                               
@@ -157,6 +162,10 @@
                             }
                             
                               //TODO : Terminer tous les filtres
+                              if(isset($_POST['filtre_region']))
+                                  {
+                                    $_POST['filtre_region'];
+                                  }
                           }
                             
                             $request=$request.";";
@@ -195,8 +204,15 @@
                                   <div class="card-content">
                                     <span class="card-title grey-text text-darken-4"><?php echo $donnee['vin_nom']; ?><br><h6><?php echo $donnee['vin_annee']; ?></h6></span>
                                       <p><a class="btn-floating btn-flat waves-effect waves-light btn-small" href="#"><i style="color:#ef9a9a" class="activator material-icons">subject</i></a>
-                                          <a class="btn-floating btn-flat waves-effect waves-light btn-small" target="_blank" href="pdf.php"><i style="color:#ef9a9a" class="material-icons">print</i></a>
-                                      <button class="btn-floating btn-flat waves-effect waves-light btn-small" href="#" onclick="$('#card_vin<?php echo $donnee['vin_id']; ?>').addClass('hide'); $('tr').show('slow'); $('thead').show('slow');"><i style="color:#ef9a9a" class="material-icons bottom">close</i></button></p>
+                                          <form method="POST" action="pdf.php" target="_blank">
+                                          <input type="hidden" name="nom_vin" value="<?php echo $donnee['vin_nom']; ?>"/>
+                                          <input type="hidden" name="description_vin" value="<?php echo $donnee['vin_description']; ?>"/>
+                                          <input type="hidden" name="annee_vin" value="<?php echo $donnee['vin_annee']; ?>"/>
+                                          <input type="hidden" name="couleur_vin" value="<?php echo $donnee['vin_couleur']; ?>"/>
+                                          <input type="hidden" name="region_vin" value="<?php echo $donnee['region_name']; ?>"/>
+                                          <input type="hidden" name="domaine_vin" value="<?php echo $donnee['dom_name']; ?>"/>
+                                          <button target="_blank" type="submit" class="btn-floating btn-flat waves-effect waves-light btn-small" target="_blank" action="pdf.php"><i style="color:#ef9a9a" class="material-icons">print</i></form></button>
+                                      <a class="btn-floating btn-flat waves-effect waves-light btn-small" href="#" onclick="$('#card_vin<?php echo $donnee['vin_id']; ?>').addClass('hide'); $('tr').show('slow'); $('thead').show('slow');"><i style="color:#ef9a9a" class="material-icons bottom">close</i></a></p>
                                   </div>
                                   <div class="card-reveal">
                                     <span class="card-title grey-text text-darken-4"><?php echo $donnee['vin_nom']; ?><i class="material-icons right">close</i></span>
