@@ -15,12 +15,12 @@ session_start();
     <div class="divider"></div>
       <div class="row">
           <div class="input-field col s6">
-          <i class="material-icons prefix">email</i>
-              <input name="email" id="email" type="email" class="validate"/>
-          <label for="email" data-error="invalide" data-success="valide">Email</label>
+          <i class="material-icons prefix">account_circle</i>
+              <input name="account" id="account" type="text" class="validate"/>
+          <label for="account" data-error="invalide" data-success="valide">Login</label>
         </div>
         <div class="input-field col s6">
-            <i class="material-icons prefix">account_circle</i>
+            <i class="material-icons prefix">lock</i>
                         <label for="password">Password</label>
             <input name="password" id="password" type="password" class="validate"/>
           
