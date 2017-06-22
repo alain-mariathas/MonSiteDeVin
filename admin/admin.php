@@ -20,17 +20,17 @@ include_once('../test_connexion.php');
 </div>
 
 <!-- FORMULAIRE GESTION UTILISATEUR -->	
-
-<div id="list">
+<div class="" style="float:right; margin:0 auto; margin-right:80px; width:10px;"><a class="red lighten-5 waves-effect waves-red btn-flat" href="#ajout_user"><i class="material-icons">add</i></a></div>
+<div style="width:70%; margin:0 auto;" id="list">
 <h4 class="center">Liste des utilisateurs</h4>
-                    <table class="centered highlight">
+                    <table class="centered highlight responsive-table">
                         <thead>
                           <tr>
                               <th>CN</th>
                               <th>SN</th>
                               <th>Ville</th>
-                              <th><i class="material-icons">mode_edit</i></th>
-                              <th><i class="material-icons">delete</i></th>
+                              <th style="width:20px"><i class="material-icons">mode_edit</i></th>
+                              <th style="width:20px"><i class="material-icons">delete</i></th>
                           </tr>
                         </thead>
 
@@ -63,15 +63,15 @@ if($bind)
       <td><?php echo $data[$i]["cn"][0];?></td>
       <td><?php echo $data[$i]["sn"][0];?></td>
       <td><?php echo $data[$i]["l"][0];?></td>
-        <td><a class="btn-flat waves-effect waves-light pulse" href="#modif_user<?php echo $data[$i]['sn'][0];?>"><i style="color:#ef9a9a" class="material-icons">mode_edit</i></a></td>
-        <td><form method="post" action="delete_user.php"><input name="dn_to_del" type="hidden" value="<?php echo $data[$i]['cn'][0];?>"><button class="btn-flat waves-effect waves-light pulse" type="submit" onclick="confirm('êtes-vous sûr de vouloir supprimer cet utilisateur?')"><i style="color:#ef9a9a" class="material-icons">delete</i></button></td>
+        <td style="width:20px"><a class="btn-flat waves-effect waves-light pulse" href="#modif_user<?php echo $data[$i]['sn'][0];?>"><i style="color:#ef9a9a" class="material-icons">mode_edit</i></a></td>
+        <td style="width:20px"><form method="post" action="delete_user.php"><input name="dn_to_del" type="hidden" value="<?php echo $data[$i]['cn'][0];?>"><button class="btn-flat waves-effect waves-light pulse" type="submit" onclick="confirm('êtes-vous sûr de vouloir supprimer cet utilisateur?')"><i style="color:#ef9a9a" class="material-icons">delete</i></button></td>
         </tr>
         
         <div id="modif_user<?php echo $data[$i]['sn'][0];?>" class="modal">
     <div class="center-align modal-content">
     <h4>Modification de l'utilisateur</h4>
     <div class="row">
-        <form method="POST" action="add_user.php" class="col s12 center-align">
+        <form method="POST" action="modif_user.php" class="col s12 center-align">
             <div class="row">
                 <div class="input-field col s12">
                 <input disabled name="nom_user" type="text" class="validate" value="<?php echo strstr($data[$i]['sn'][0],' '); ?>">
@@ -97,14 +97,14 @@ if($bind)
         </div>
         <div id="passwd" class="hide row">
         <div class="input-field col s12 inline">
-          <input placeholder="password" name="password" type="password" class="validate" pattern="^([a-zA-Z0-9\!-\.]*){9}$" title="9 caractères dont chiffre et symbole spécial">
+          <input placeholder="password" name="password" type="password" class="validate" pattern=".{6,}" title="9 caractères dont chiffre et symbole spécial">
           <label for="password">Password</label>
                   </div>
         </div>
         </div>
         </div>
         <div class="modal-footer">
-        <button action="add_user.php" class="modal-action modal-close waves-effect waves-green btn-flat" value="Valider" onclick="confirm('êtes-vous sûr de vouloir modifier cet utilisateur?')">Valider</button>
+        <button action="modif_user.php" class="modal-action modal-close waves-effect waves-green btn-flat" value="Valider" onclick="confirm('êtes-vous sûr de vouloir modifier cet utilisateur?')">Valider</button>
         </form>
     </div>
 </div>
@@ -116,9 +116,7 @@ if($bind)
     </tbody>
 </table>
 
-<div style="margin:0 auto; width:10px;"><a class="red lighten-5 waves-effect waves-red btn-flat" href="#ajout_user"><i class="material-icons">add</i></a></div>
-  
-  
+
   <div id="ajout_user" class="modal">
                                 <div class="center-align modal-content">
                                   <h4>Ajout d'un utilisateur</h4>
@@ -162,7 +160,6 @@ if($bind)
 </div>
 
 </main>
-<?php include('../footer.php'); ?>
 
 <script type="text/javascript">
   $(document).ready(function(){

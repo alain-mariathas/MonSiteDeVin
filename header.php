@@ -8,10 +8,11 @@
           <li><a href="vinebody.php">Catalogue des vins</a></li>
           <li><a href="AjoutVin.php">Ajout d'un vin</a></li>
           <?php
-          //insérer contrôle administrateur
+          if($_SESSION['cn']=="admin")
+          {
           ?>
           <li><a href="admin/index.php">Adminsitration</a></li>
-          <?php ?>
+          <?php }?>
           <li><a href="post_deconnexion.php"><i class="material-icons">power_settings_new</i></a></li>
         </ul>
       </div>

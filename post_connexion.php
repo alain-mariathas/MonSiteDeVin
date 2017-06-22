@@ -8,11 +8,11 @@ session_start();
 include_once "head.php";
 
 $pwd=$_POST["password"];
-$_SESSION['dn'] = $_POST["account"];
+$_SESSION['cn'] = $_POST["account"];
 
 $server="localhost";
 $port="389";
-$dn="cn=".$_SESSION['dn'].",dc=sitevin";
+$dn="cn=".$_SESSION['cn'].",dc=sitevin";
 
 $ds=ldap_connect($server,$port) or die ("Impossible de se connecter au serveur ! \n");
 ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
@@ -20,7 +20,7 @@ ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
 
 $bind=ldap_bind($ds,$dn,$pwd);
 
- if(isset($_SESSION['nb_conn']) and (strcmp($_POST["account"],$_SESSION["dn"])==0))
+ if(isset($_SESSION['nb_conn']) and (strcmp($_POST["account"],$_SESSION["cn"])==0))
     {
         $_SESSION['nb_conn']+=1;
         

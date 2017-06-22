@@ -5,8 +5,8 @@
 <?php include("post_bdd_conn.php"); ?>
     <body >
     <?php include("header.php"); ?>  
-    <main style="margin-top:10%">
-         <div id="bloc_search">
+    <main style="margin-top:3%">
+         <div style="text-align:center" id="bloc_search">
         <h3>Recherche</h3>
         <div class="divider">
         </div>
@@ -51,7 +51,7 @@
               <div class="row">
                     <div class="input-field col s5">
                                             <p>Régions</p>
-                          <select name="filtre_region" multiple>
+                          <select name="filtre_region">
                           <option value="" disabled selected>Choisissez vos régions</option>
                           <?php
                             $rep=$bdd->query('SELECT * FROM regions;'); 
@@ -70,11 +70,17 @@
               <input style="text-align:center"  type="submit" class="red lighten-1 pulse btn" value="valider">
             </div>
             </div>
+            
+            <div class="row">
+              <div class="input-field center-align col s5">
+              <a href="vinebody.php" style="text-align:center" class="red lighten-1 pulse btn">Réinitialiser</a>
+            </div>
+            </div>
         </form>
             </div> 
         
       <div style="height:100%" id="vinebody" class="main">
-        <h3>Vin</h3>
+        <h3>Vins</h3>
         <div class="divider"></div>
 
           <div style="height:100%" id="bloc_mainVine">
@@ -152,10 +158,9 @@
                               $request=$request.") ";
                             }
                             
-                              //TODO : Terminer tous les filtres
                               if(isset($_POST['filtre_region']))
                                   {
-                                    $_POST['filtre_region'];
+                                    $request=$request." AND (domaine_id = (select dom_id from domaines where region_id = ".$_POST['filtre_region'].")) ";
                                   }
                           }
                             
@@ -216,34 +221,35 @@
                                 <div class="center-align modal-content">
                                   <h4>Modification de la fiche de vin</h4>
                                    <div class="row">
-                                    <form method="POST" action="post_modif.php" class="col s12 center-align">
-                                      <div class="row">
+                                    <form id="form_modif" method="POST" action="post_modif.php" class="col s12 center-align">
+                                        
+                                             <div class="row">
                                         <div class="input-field col s12">
                                           <input placeholder="Nom du vin" name="nom_du_vin" type="text" class="validate" value="<?php echo $donnee['vin_nom']; ?>">
                                           <label for="nom_du_vin">Nom du vin</label>
-                                          <input type="hidden" name="vinid" value="<?php echo $donnee['vin_id']; ?>"/>
+                                          <input type="hidden" name="vin_id" value="<?php echo $donnee['vin_id']; ?>"/>
                                         </div>
                                       </div>
                                       <div class="row">
-                                        <div class="input-field col s6">
+                                        <div class="input-field col s12">
                                           <input name="annee" type="text" class="validate" value="<?php echo $donnee['vin_annee']; ?>">
                                           <label for="annee">Année</label>
                                         </div>
-                                        <div class="input-field col s6">
-                                          <select name="couleur_du_vin" required>
-                                            <option disabled >Couleur du vin</option>
-                                            <option id="Rouge" name="Rouge" value="Rouge" >Rouge</option>
-                                            <option id="Rose" name="Rose" value="Rose" >Rosé</option>
-                                            <option id="Blanc" name="Blanc" value="Blanc" >Blanc</option>
+                                        </div>
+                                        <div class="row">
+                                        <div class="input-field col s12">
+                                          <select name="test">
+                                            <option value="toto">toto</option>
+                                            <option value="tutu">tutu</option>
                                           </select>
-                                          <label for="couleur">Couleur du vin</label>
+                                          <label for="couleur_du_vin">Couleur du vin</label>
                                         </div>
                                       </div>
                                       <div class="row">
                                         <div class="input-field col s10">
-                                          <select name="domaine_du_vin" class="validate">
-                                            <option value="" disabled selected>Choix des domaines</option>
-                                          <?php
+                                          <select name="filtre_domaine">
+                          <option value="" disabled selected>Choisissez le domaine</option>
+                          <?php
                             $rep=$bdd->query('SELECT * FROM domaines;'); 
                                 while($donnees = $rep->fetch())
                                     {
@@ -251,8 +257,8 @@
                                     }
                             $rep->closeCursor();
                           ?>
-                                          </select>
-                                          <label for="domaine">Domaine</label>
+                        </select>
+                                          <label for="domaine_du_vin">Domaine</label>
                                         </div>
                                         <div class="input-field inline col s2">
                                           <a class="left btn-floating btn-flat waves-effect waves-light btn-small" href="#modalajoutdom"><i style="color:#ef9a9a" class="material-icons">add</i></a>
@@ -260,16 +266,17 @@
                                       </div>
                                       <div class="row">
                                         <div class="input-field col s12">
-                                          <textarea name="description" class="materialize-textarea" value="<?php echo $donnee['vin_description']; ?>"><?php echo $donnee['vin_description']; ?></textarea>
-                                          <label for="description">Description</label>
+                                          <textarea name="description_du_vin" class="materialize-textarea" value="<?php echo $donnee['vin_description']; ?>"><?php echo $donnee['vin_description']; ?></textarea>
+                                          <label for="description_du_vin">Description</label>
                                       </div>
                                     
                                   </div>
+                                        
                                 </div>
                                 <div class="modal-footer">
-                                  <button action="post_modif.php" class="modal-action modal-close waves-effect waves-green btn-flat" value="Valider">Valider</button>
+                                  <button form="form_modif" type="submit" action="post_modif.php" class="modal-action modal-close waves-effect waves-green btn-flat" >Valider</button>
                                   </form>
-                                </div>
+                                  </div>
                               </div>
 
                               
