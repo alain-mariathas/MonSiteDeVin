@@ -238,9 +238,10 @@
                                         </div>
                                         <div class="row">
                                         <div class="input-field col s12">
-                                          <select name="test">
-                                            <option value="toto">toto</option>
-                                            <option value="tutu">tutu</option>
+                                          <select name="couleur_du_vin">
+                                            <option value="Rouge">Rouge</option>
+                                            <option value="Rose">Rosé</option>
+                                            <option value="Blanc">Blanc</option>
                                           </select>
                                           <label for="couleur_du_vin">Couleur du vin</label>
                                         </div>
@@ -261,7 +262,7 @@
                                           <label for="domaine_du_vin">Domaine</label>
                                         </div>
                                         <div class="input-field inline col s2">
-                                          <a class="left btn-floating btn-flat waves-effect waves-light btn-small" href="#modalajoutdom"><i style="color:#ef9a9a" class="material-icons">add</i></a>
+                                          <a class="left btn-floating btn-flat waves-effect waves-light btn-small" href="ajout_domaine.php"><i style="color:#ef9a9a" class="material-icons">add</i></a>
                                         </div>
                                       </div>
                                       <div class="row">
