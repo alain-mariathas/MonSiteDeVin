@@ -1,6 +1,6 @@
 <?php
-include_once 'test_connexion.php';
-include_once 'post_bdd_conn.php';
+include 'test_connexion.php';
+include 'post_bdd_conn.php';
 
 
 if(isset($_POST['name']) and isset($_POST['adresse']) and isset($_POST['region_id']))

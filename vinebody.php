@@ -95,7 +95,8 @@
                               <th>Région</th>
                               <th>Couleur</th>
                               <th>Année</th>
-                              <th> </th>
+                              <th></th>
+                              <th></th>
                           </tr>
                         </thead>
 
@@ -191,6 +192,7 @@
                               <td><?php echo $donnee['vin_couleur']; ?></td>
                               <td><?php echo $donnee['vin_annee']; ?></td>
                               <td><button class="btn-floating btn-flat waves-effect waves-light btn-small" onclick="$('#card_vin<?php echo $donnee['vin_id']; ?>').removeClass('hide'); $('tr').hide(); $('thead').hide();"><i style="color:#ef9a9a" class="material-icons tiny">add</i></button></td>
+                              <td><form action="post_supp_vin.php" method="get"><input type="hidden" name="vin_id" value="<?php echo $donnee['vin_id']; ?>"><button type="submit" class="btn-floating btn-flat waves-effect waves-light btn-small" action="post_supp_vin.php" onclick="return confirm('voulez-vous vraiment supprimer cette fiche?');"><i style="color:#ef9a9a" class="material-icons tiny">delete</i></button></form></td>
                             </tr>
                                             <!-- FICHES DES VINS --> 
                                <div id="card_vin<?php echo $donnee['vin_id']; ?>" style="margin-top:5%; margin-bottom:10%" class="hoverable hide card large">
@@ -221,8 +223,7 @@
                                 <div class="center-align modal-content">
                                   <h4>Modification de la fiche de vin</h4>
                                    <div class="row">
-                                    <form id="form_modif" method="POST" action="post_modif.php" class="col s12 center-align">
-                                        
+                                    <form id="form_modif<?php echo $donnee['vin_id']; ?>" method="POST" action="post_modif.php" class="col s12 center-align">
                                              <div class="row">
                                         <div class="input-field col s12">
                                           <input placeholder="Nom du vin" name="nom_du_vin" type="text" class="validate" value="<?php echo $donnee['vin_nom']; ?>">
@@ -237,32 +238,18 @@
                                         </div>
                                         </div>
                                         <div class="row">
-                                        <div class="input-field col s12">
-                                          <select name="couleur_du_vin">
-                                            <option value="Rouge">Rouge</option>
-                                            <option value="Rose">Rosé</option>
-                                            <option value="Blanc">Blanc</option>
-                                          </select>
+                                        <div class="input-field col s12 inline">
+                                          <p>
+                                            <input name="couleur_du_vin" type="radio" id="Rouge" value="Rouge"/>
+                                            <label for="Rouge">Rouge</label>
+                                            
+                                            <input name="couleur_du_vin" type="radio" id="Rose" value="Rose"/>
+                                            <label for="Rose">Rosé</label>
+                                            
+                                            <input name="couleur_du_vin" type="radio" id="Blanc" value="Blanc"/>
+                                            <label for="Blanc">Blanc</label>
+                                          </p>
                                           <label for="couleur_du_vin">Couleur du vin</label>
-                                        </div>
-                                      </div>
-                                      <div class="row">
-                                        <div class="input-field col s10">
-                                          <select name="filtre_domaine">
-                          <option value="" disabled selected>Choisissez le domaine</option>
-                          <?php
-                            $rep=$bdd->query('SELECT * FROM domaines;'); 
-                                while($donnees = $rep->fetch())
-                                    {
-                                        echo "<option value=\"".$donnees['dom_id']."\">".$donnees['dom_name']."</option>";
-                                    }
-                            $rep->closeCursor();
-                          ?>
-                        </select>
-                                          <label for="domaine_du_vin">Domaine</label>
-                                        </div>
-                                        <div class="input-field inline col s2">
-                                          <a class="left btn-floating btn-flat waves-effect waves-light btn-small" href="ajout_domaine.php"><i style="color:#ef9a9a" class="material-icons">add</i></a>
                                         </div>
                                       </div>
                                       <div class="row">
@@ -275,7 +262,7 @@
                                         
                                 </div>
                                 <div class="modal-footer">
-                                  <button form="form_modif" type="submit" action="post_modif.php" class="modal-action modal-close waves-effect waves-green btn-flat" >Valider</button>
+                                  <button form="form_modif<?php echo $donnee['vin_id']; ?>" type="submit" action="post_modif.php" class="modal-action modal-close waves-effect waves-green btn-flat" >Valider</button>
                                   </form>
                                   </div>
                               </div>

@@ -19,7 +19,7 @@
                   <input name="name" id="name" type="text">
                   <label for="name">Nom du domaine</label>
                 </div>
-                </div>
+        </div>
         <div class="row">
                 <div class="input-field col s12">
                   <input name="adresse" id="adresse" type="text">
