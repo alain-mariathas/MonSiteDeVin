@@ -66,7 +66,7 @@ if($bind)
       <td><?php echo $data[$i]["l"][0];?></td>
         <td style="width:20px"><a class="btn-flat waves-effect waves-light pulse" href="#modif_user<?php echo $data[$i]['sn'][0];?>"><i style="color:#ef9a9a" class="material-icons">mode_edit</i></a></td>
         <td style="width:20px"><a class="btn-flat waves-effect waves-light pulse" href="#"><i style="color:#ef9a9a" class="material-icons">lock</i></a></td>
-        <td style="width:20px"><form method="post" action="delete_user.php"><input name="dn_to_del" type="hidden" value="<?php echo $data[$i]['cn'][0];?>"><button class="btn-flat waves-effect waves-light pulse" type="submit" onclick="return confirm('êtes-vous sûr de vouloir supprimer cet utilisateur?')"><i style="color:#ef9a9a" class="material-icons">delete</i></button></td>
+        <td style="width:20px"><form method="post" action="delete_user.php"><input name="dn_to_del" type="hidden" value="<?php echo $data[$i]['cn'][0];?>"><button class="btn-flat waves-effect waves-light pulse" type="submit" onclick="return confirm('êtes-vous sûr de vouloir supprimer cet utilisateur?')"><i style="color:#ef9a9a" class="material-icons">delete</i></button></form></td>
         </tr>
         
         <div id="modif_user<?php echo $data[$i]['sn'][0];?>" class="modal">
@@ -99,7 +99,7 @@ if($bind)
         </div>
         <div id="passwd<?php echo $data[$i][0]['sn'];?>" class="hide row">
         <div class="input-field col s12 inline">
-            <input required placeholder="password" name="password" type="password" class="validate" pattern="^([a-zA-Z0-9\!-\.]*){9}$" title="Au moins 6 caractères alpha-numériques">
+            <input required id="password "placeholder="password" name="password" type="password" class="validate" pattern="(?=^.{9}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" title="Au moins 6 caractères alpha-numériques">
             <label class="active" for="password">Password</label>
           </div>
         </div>
@@ -144,7 +144,7 @@ if($bind)
                                       </div>
                                       <div class="row">
                                         <div class="input-field col s12">
-                                          <input placeholder="password" name="password" type="password" class="validate" pattern="^([a-zA-Z0-9\!-\.]*){9}$" title="9 caractères dont chiffre et symbole spécial">
+                                          <input placeholder="password" id="password" name="password" type="password" class="validate" pattern="(?=^.{9}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" title="9 caractères dont chiffre et symbole spécial">
                                           <label for="password">Password</label>
                                         </div>
                                       </div>

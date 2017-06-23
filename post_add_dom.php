@@ -3,7 +3,7 @@ include 'test_connexion.php';
 include 'post_bdd_conn.php';
 
 
-if(isset($_POST['name']) and isset($_POST['adresse']) and isset($_POST['region_id']))
+if(isset($_POST['name']) and isset($_POST['adresse']) and isset($_POST['region']))
 {
 
 
@@ -17,7 +17,7 @@ $req->execute(array($_POST['name'], $_POST['adresse'], $_POST['region']));
 
 
 //redirection
-header('location:vinebody.php');
+header('location:AjoutVin.php');
 }
 
 else

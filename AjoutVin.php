@@ -43,9 +43,9 @@
         </div>
         
         <div class="row">
-                <div class="input-field col s12">
+                <div class="input-field col s10">
         <select name="domaine">
-                          <option value="" disabled selected>Choisissez vos régions</option>
+                          <option value="" disabled selected>Choisissez le domaine</option>
                           <?php
                             $rep=$bdd->query('SELECT * FROM domaines;'); 
                                 while($donnees = $rep->fetch())
@@ -55,6 +55,9 @@
                             $rep->closeCursor();
                           ?>
                         </select>
+              </div>
+              <div class="input-field col s2">
+                <a href="ajout_domaine.php"><i style="color:#ef9a9a" class="material-icons">add</i></a>
               </div>
           </div>
         
